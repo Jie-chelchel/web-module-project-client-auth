@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FriendsAxios from "../utils/FriendsAxios";
 
 const NewFriends = () => {
   const initialNewFriend = {
@@ -11,10 +12,22 @@ const NewFriends = () => {
   const inputHandler = (e) => {
     console.log(e.target.value);
     setNewFriend({ ...newFriend, [e.target.name]: e.target.value });
-    console.log(newFriend);
   };
+
+  const addNewFriendsHandler = (e) => {
+    e.preventDefault();
+    FriendsAxios()
+      .post("/friends", { ...newFriend, id: Date.now() })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
-    <form className="auth">
+    <form onSubmit={addNewFriendsHandler} className="auth">
       <div className="control">
         <label>Friend's Name</label>
         <input

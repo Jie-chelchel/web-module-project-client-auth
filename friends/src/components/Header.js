@@ -1,6 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../store/auth-context";
+import FriendsAxios from "../utils/FriendsAxios";
 
 const Header = () => {
+  const history = useHistory();
+  const authCtx = useContext(AuthContext);
+  const logoutHandler = () => {
+    FriendsAxios()
+      .post("/logout")
+      .then((res) => {
+        authCtx.logout();
+        history.push("/");
+        console.log(authCtx);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   return (
     <header className="header">
       <Link to="/">
@@ -9,9 +27,7 @@ const Header = () => {
 
       <nav>
         <ul>
-          <li>
-            <Link to="/login">Log In</Link>
-          </li>
+          <li>{!authCtx.isLoggedIn && <Link to="/login">Log In</Link>}</li>
           <li>
             <Link to="/form">Add Friends</Link>
           </li>
@@ -19,7 +35,9 @@ const Header = () => {
             <Link to="/friends">Friends</Link>
           </li>
           <li>
-            <button>Logout</button>
+            {authCtx.isLoggedIn && (
+              <button onClick={logoutHandler}>Logout</button>
+            )}
           </li>
         </ul>
       </nav>

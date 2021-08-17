@@ -1,34 +1,46 @@
-import axios from "axios";
+import FriendsAxios from "../utils/FriendsAxios";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../store/auth-context";
 
 const Login = () => {
   const initialUser = {
     password: "",
-
-    userName: "",
+    username: "",
   };
-
   const [user, setUser] = useState(initialUser);
+  const authCtx = useContext(AuthContext);
 
   const inputHandler = (e) => {
-    console.log(e.target.value);
     setUser({ ...user, [e.target.name]: e.target.value });
-    console.log(user);
   };
 
-  const login = (e) => {
-    e.prevent.default();
+  let history = useHistory();
+
+  const loginHandler = (e) => {
+    e.preventDefault();
+    console.log(user);
+    FriendsAxios()
+      .post("login", user)
+      .then((res) => {
+        authCtx.login(res.data.payload);
+        history.push("/friends");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   return (
-    <form onSubmit={login} className="auth">
+    <form onSubmit={loginHandler} className="auth">
       <div className="control">
-        <label>userName</label>
+        <label>user name</label>
         <input
           type="text"
-          placeholder="userName"
-          name="userName"
-          value={user.userName}
+          placeholder="username"
+          name="username"
+          value={user.username}
           onChange={inputHandler}
         />
       </div>
