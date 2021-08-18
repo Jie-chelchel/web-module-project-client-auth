@@ -16,9 +16,11 @@
 }
 .auth a:hover {
   color: orange;
-  font-size: 1.2rem;
 }
 
+.auth.friend:hover {
+  transform: scale(1.1);
+}
 .header {
   width: 90%;
   height: 5rem;
