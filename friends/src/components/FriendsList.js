@@ -8,8 +8,6 @@ const FriendsList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const authCtx = useContext(AuthContext);
 
-  console.log(authCtx);
-
   useEffect(() => {
     setIsLoading(true);
     FriendsAxios()
@@ -22,6 +20,10 @@ const FriendsList = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    return () => {
+      authCtx.getFriendsList([]);
+    };
   }, []);
 
   return (

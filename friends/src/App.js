@@ -8,6 +8,7 @@ import FriendsList from "./components/FriendsList";
 import AuthContext from "./store/auth-context";
 import { useContext } from "react";
 import PrivateRoute from "./components/PriviteRoute";
+import FriendsDetails from "./components/FriendDetails";
 function App() {
   const authCtx = useContext(AuthContext);
 
@@ -18,7 +19,8 @@ function App() {
         {!authCtx.isLoggedIn && <Route path="/login" component={Login} />}
         <PrivateRoute path="/form" component={NewFriends} />
 
-        <PrivateRoute path="/friends" component={FriendsList} />
+        <PrivateRoute path="/friends" exact component={FriendsList} />
+        <PrivateRoute path="/friends/:Id" component={FriendsDetails} />
       </section>
     </div>
   );

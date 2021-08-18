@@ -1,5 +1,6 @@
 import { useState } from "react";
 import FriendsAxios from "../utils/FriendsAxios";
+import { useHistory } from "react-router-dom";
 
 const NewFriends = () => {
   const initialNewFriend = {
@@ -7,10 +8,11 @@ const NewFriends = () => {
     age: "",
     email: "",
   };
+  const history = useHistory();
 
   const [newFriend, setNewFriend] = useState(initialNewFriend);
   const inputHandler = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setNewFriend({ ...newFriend, [e.target.name]: e.target.value });
   };
 
@@ -19,7 +21,8 @@ const NewFriends = () => {
     FriendsAxios()
       .post("/friends", { ...newFriend, id: Date.now() })
       .then((res) => {
-        console.log(res.data);
+        setNewFriend(initialNewFriend);
+        history.push("/friends");
       })
       .catch((err) => {
         console.log(err);

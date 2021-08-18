@@ -10,6 +10,15 @@
   color: white;
 }
 
+.auth a {
+  text-decoration: none;
+  color: white;
+}
+.auth a:hover {
+  color: orange;
+  font-size: 1.2rem;
+}
+
 .header {
   width: 90%;
   height: 5rem;
